@@ -1,9 +1,13 @@
 import { Counter } from './components'
+import { CounterProvider, initState } from './context'
+
 
 function App() {
   return (
     <>
-      <Counter />
+      <CounterProvider count={initState.count} text={initState.text}>
+        <Counter />
+      </CounterProvider>
     </>
   )
 }
