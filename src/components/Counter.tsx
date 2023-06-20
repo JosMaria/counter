@@ -1,16 +1,21 @@
-import { useReducer } from 'react'
+import { ChangeEvent, useReducer } from 'react'
 
 import './Counter.css'
 
-const initState = { count: 0 }
+const initState = {
+  count: 0,
+  text: ''
+}
 
 const enum REDUCER_ACTION_TYPE {
   INCREMENT,
-  DECREMENT
+  DECREMENT,
+  NEW_INPUT
 }
 
 type ReducerAction = {
-  type: REDUCER_ACTION_TYPE
+  type: REDUCER_ACTION_TYPE,
+  payload?: string
 }
 
 const reducer = (state: typeof initState, action: ReducerAction): typeof initState => {
@@ -20,6 +25,9 @@ const reducer = (state: typeof initState, action: ReducerAction): typeof initSta
 
     case REDUCER_ACTION_TYPE.DECREMENT:
       return { ...state, count: state.count - 1 }
+
+    case REDUCER_ACTION_TYPE.NEW_INPUT:
+      return { ...state, text: action.payload ?? '' }
 
     default:
       throw new Error()
@@ -31,6 +39,12 @@ export const Counter = () => {
 
   const increment = () => dispatch({ type: REDUCER_ACTION_TYPE.INCREMENT })
   const decrement = () => dispatch({ type: REDUCER_ACTION_TYPE.DECREMENT })
+  const handleTextInput = (e: ChangeEvent<HTMLInputElement>) => 
+    dispatch({ 
+      type: REDUCER_ACTION_TYPE.NEW_INPUT,
+      payload: e.target.value
+    })
+  
 
   return (
     <div className='container-counter'>
@@ -39,6 +53,8 @@ export const Counter = () => {
         <button onClick={increment}>Increment</button>
         <button onClick={decrement}>Decrement</button>
       </nav>
+      <input type='text' onChange={handleTextInput} />
+      <h2>{state.text}</h2>
     </div>
   )
 }

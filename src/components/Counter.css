@@ -23,3 +23,7 @@ button {
 button:hover {
   background-color: cornsilk;
 }
+
+input {
+  padding: 0.5em;
+}
